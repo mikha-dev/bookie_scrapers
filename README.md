@@ -19,6 +19,7 @@ is preferable if you do not run it on a dedicated server.
 Xvfb :99 -screen 0 640x480x8 -nolisten tcp &
 python ./main.py
 ```
+
 For testing purposes one can run the script as is and watch the browser switch tabs.
 
 ### requirements

@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="bookie_scrapers-almenjonatan",
+    name="bookie_scrapers",
     version="0.0.1",
     author="Jonatan Almen",
     author_email="almen.jonatan@gmail.com",
