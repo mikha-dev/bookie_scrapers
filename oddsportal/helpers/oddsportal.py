@@ -33,7 +33,7 @@ def parse_odds(driver):
         finished = driver.find_element_by_xpath("//div[@id='event-status']").text
 
         if len(finished.strip()) > 0:
-            return "DONE"
+            return "FINISHED"
 
         odds = driver.find_elements_by_xpath("//tr[contains(@class, 'lo')]")
         odds = [list(map(lambda s: s.strip(), o.text.split("\n"))) for o in odds]
