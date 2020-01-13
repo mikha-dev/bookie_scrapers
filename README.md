@@ -4,6 +4,10 @@
 ```
 from oddsportal.oddsportal import OddsPortal
 
+# Remove comment to enable logging logging.
+# logging.basicConfig(level=logging.INFO)
+
+
 config = {
     "url": "https://www.oddsportal.com/soccer/england/premier-league/",
     "data_path": "./data",
