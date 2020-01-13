@@ -1,4 +1,5 @@
 import datetime
+import logging
 from pathlib import Path
 
 import pandas as pd
@@ -44,8 +45,7 @@ class OddsCache:
         difference_df = difference_df.loc[difference_index, :]
 
         if difference_index.any():
-            print(difference_index)
-            print(difference_df)
+            logging.info(f"odds difference in:  {url}")
 
         difference_df.columns = ["1Diff", "XDiff", "2Diff"]
 
