@@ -38,7 +38,7 @@ def parse_odds(driver):
         odds = driver.find_elements_by_xpath("//tr[contains(@class, 'lo')]")
         odds = [list(map(lambda s: s.strip(), o.text.split("\n"))) for o in odds]
         odds = [o for o in odds if len(o) == 5]
-
+        print(odds)
         return odds
 
     except NoSuchElementException as _:
