@@ -1,3 +1,4 @@
+import logging
 import time
 
 from oddsportal.helpers.oddsportal import find_urls, parse_odds
@@ -24,6 +25,8 @@ class OddsScraper(BaseScraper):
             for window_handler in window_handles[1:]:
 
                 self.driver.switch_to.window(window_handler)
+
+                logging.info(f"parsing url: {self.driver.current_url:>5}")
 
                 odds = parse_odds(self.driver)
 
