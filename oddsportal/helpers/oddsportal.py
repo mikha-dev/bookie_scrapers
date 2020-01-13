@@ -1,3 +1,5 @@
+import logging
+
 from selenium.common.exceptions import NoSuchElementException
 
 

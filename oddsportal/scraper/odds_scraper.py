@@ -31,6 +31,7 @@ class OddsScraper(BaseScraper):
                 odds = parse_odds(self.driver)
 
                 if odds == "FINISHED":
+                    logging.info(f"closing game: {self.driver.current_url:>5}")
                     self.window_handler.close_tab()
                     continue
 

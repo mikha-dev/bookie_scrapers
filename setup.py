@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="bookie_scrapers",
-    version="0.0.132",
+    name="bookie-scrapers",
+    version="0.0.133",
     author="Jonatan Almen",
     author_email="almen.jonatan@gmail.com",
     description="Simple Oddsportal Scraper",
