@@ -1,4 +1,4 @@
-from oddsportal.scraper_client import ScraperClient
+from oddsportal.oddsportal import OddsPortal
 
 config = {
     "url": "https://www.oddsportal.com/soccer/england/premier-league/",
@@ -6,4 +6,4 @@ config = {
     "competition_name": "premier-league"
 }
 
-ScraperClient(config).start_scraper()
+OddsPortal(config).start_scraper()

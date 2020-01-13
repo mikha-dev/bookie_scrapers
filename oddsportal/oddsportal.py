@@ -4,7 +4,7 @@ from oddsportal.odds_cache import OddsCache
 from oddsportal.scraper.odds_scraper import OddsScraper
 
 
-class ScraperClient:
+class OddsPortal:
 
     def __init__(self, config):
         self.config = config
