@@ -38,3 +38,4 @@ https://chromedriver.chromium.org/
 * Add support for other browsers than google Chrome/Chromium
 * Add support for custom repositories
 * Add more bookies and customizable scrapers
+* Add Docker support
