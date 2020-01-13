@@ -19,8 +19,10 @@ class OddsScraper(BaseScraper):
         self.window_handler.open_tabs(urls)
 
         while True:
+            window_handles = self.driver.window_handles.copy()
 
-            for window_handler in self.driver.window_handles[1:]:
+            for window_handler in window_handles[1:]:
+
                 self.driver.switch_to.window(window_handler)
 
                 odds = parse_odds(self.driver)
