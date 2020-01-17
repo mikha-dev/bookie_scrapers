@@ -1,6 +1,6 @@
 from selenium import webdriver
 
-from oddsportal.windowhandler import WindowHandler
+from scrapers.base.windowhandler import WindowHandler
 
 
 class BaseScraper:

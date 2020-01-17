@@ -6,14 +6,14 @@ import pandas as pd
 
 
 class OddsCache:
-    def __init__(self, data_path: Path, competition_name):
-        self.data_path = data_path
+    def __init__(self, data_path: str, competition_name):
+        self.data_path = Path(data_path)
         self.data_path.mkdir(exist_ok=True, parents=True)
         self.competition_name = competition_name + ".csv"
         self.cache = {}
 
     @staticmethod
-    def add_new_bookies(old_bookies, new_bookies):
+    def _add_new_bookies(old_bookies, new_bookies):
         # Add bookies that did not exist previously and save to cache
         updated_df = pd.concat(
             [new_bookies[~new_bookies.index.isin(old_bookies.index)], old_bookies]
@@ -57,9 +57,9 @@ class OddsCache:
         merged_cached_df["fetched"] = datetime.datetime.utcnow()
 
         if not merged_cached_df.empty:
-            merged_cached_df.to_csv(
-                self.data_path / self.competition_name, mode="a", header=None, float_format="%.2f"
-            )
+            return merged_cached_df.to_records()
+
+        return []
 
     @staticmethod
     def _create_data_frame(odds):
