@@ -1,9 +1,7 @@
-### OddsPortal scraper
-
-![](https://github.com/almenjonatan/bookie_scrapers/workflows/test/badge.svg?branch=dev)
-
+### OddsPortal scraper 
+![](https://github.com/almenjonatan/bookie_scrapers/workflows/test/badge.svg)
 ####  Usage:
-```
+``` python
 import functools
 import logging
 from scrapers.oddsportal import OddsPortal
