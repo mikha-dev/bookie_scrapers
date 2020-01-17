@@ -37,18 +37,6 @@ def valid_odds(bookie=valid_bookies()):
     # ['bookie', 'home', 'draw', 'away', 'payout', 'homeDiff', 'drawDiff', 'awayDiff', 'url']
 
 
-@given(valid_path_names())
-def test_create_output_path(path):
-    with tempfile.TemporaryDirectory() as tmp_path:
-        path = os.path.join(tmp_path, path)
-        OddsCache(lambda: None, path)
-        assert os.path.exists(path)
-
-        # Check that existing path exist
-        OddsCache(lambda: None, path)
-        assert os.path.exists(path)
-
-
 @given(st.data())
 def test_insert(data):
     bookie1, bookie2 = data.draw(valid_bookies()), data.draw(valid_bookies())
