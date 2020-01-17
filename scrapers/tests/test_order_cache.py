@@ -8,7 +8,6 @@ import hypothesis.strategies as st
 from hypothesis import given
 
 from scrapers.base.odds_cache import OddsCache
-from scrapers.repositories import csv_repository
 
 fields = ["bookie", "1", "X", "2", "payout"]
 
@@ -16,21 +15,20 @@ alphabet = ascii_letters + digits + "-_"
 
 
 def valid_path_names():
-    ints = st.integers(min_value=0, max_value=10)
-
-    return (ints
+    return (st.
+            integers(min_value=0, max_value=10)
             .flatmap(lambda i: st.lists(st.text(min_size=1, alphabet=alphabet), min_size=i, max_size=i))
             .map(functools.partial(str.join, "/"))
             )
 
 
 def valid_bookies():
-    return st.text(alphabet)
+    return st.text(alphabet=alphabet, min_size=1)
 
 
 def valid_odds():
     return st.fixed_dictionaries({
-        'bookie': st.text(alphabet=alphabet, min_size=1),
+        'bookie': valid_bookies(),
         'home': st.floats(min_value=0, max_value=1000).map(functools.partial(round, ndigits=2)),
         'draw': st.floats(min_value=0, max_value=1000).map(functools.partial(round, ndigits=2)),
         'away': st.floats(min_value=0, max_value=1000).map(functools.partial(round, ndigits=2)),
