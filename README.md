@@ -1,5 +1,5 @@
 ### OddsPortal scraper
-
+![](https://github.com/almenjonatan/bookie_scrapers/workflows/buildtest/badge.svg)
 ####  Usage:
 ```
 import functools
