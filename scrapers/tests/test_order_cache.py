@@ -1,11 +1,9 @@
 import functools
-import os
-import tempfile
 from string import ascii_letters, digits
 from unittest.mock import Mock
 
 import hypothesis.strategies as st
-from hypothesis import given
+from hypothesis import given, assume
 
 from scrapers.base.odds_cache import OddsCache
 
@@ -20,11 +18,11 @@ def valid_path_names():
             )
 
 
-def valid_bookies():
+def valid_bookie_names():
     return st.text(alphabet=alphabet, min_size=1)
 
 
-def valid_odds(bookie=valid_bookies()):
+def valid_odds(bookie=valid_bookie_names()):
     return st.fixed_dictionaries({
         'url': bookie.map(lambda s: "http://oddsportal.com/" + s),
         'bookie': bookie,
@@ -34,48 +32,22 @@ def valid_odds(bookie=valid_bookies()):
         'payout': st.floats(min_value=0, max_value=100).map(lambda p: str(round(p, 1)) + "%")
     })
 
-    # ['bookie', 'home', 'draw', 'away', 'payout', 'homeDiff', 'drawDiff', 'awayDiff', 'url']
-
 
 @given(st.data())
-def test_insert(data):
-    bookie1, bookie2 = data.draw(valid_bookies()), data.draw(valid_bookies())
+def test_insert_same_bookie(data):
+    bookie1, bookie2 = data.draw(valid_bookie_names()), data.draw(valid_bookie_names())
+
+    assume(bookie1 != bookie2)
 
     mock_repository = Mock()
-
     odds_cache = OddsCache(mock_repository)
 
-    odds1 = [data.draw(valid_odds(st.just(bookie1)))]
-    odds2 = [data.draw(valid_odds(st.just(bookie2)))]
+    odds1 = [data.draw(valid_odds(st.just(bookie1))),
+             data.draw(valid_odds(st.just(bookie1))),
+             data.draw(valid_odds(st.just(bookie2)))]
 
-    if bookie1 == bookie2:
+    assume(odds1[0] != odds1[1])
 
-        odds_cache.add(odds1)
-        odds_cache.add(odds1)
+    odds_cache.add(odds1)
 
-        assert mock_repository.called_once()
-        mock_repository.reset_mock()
-
-        if odds1 != odds2:
-            odds_cache.add(odds2)
-            assert mock_repository.called
-            assert mock_repository.called_with(odds2)
-
-            odds_cache.add(odds1)
-            assert mock_repository.called_with(odds1)
-
-    else:
-        odds_cache.add(odds2)
-        odds_cache.add(odds1)
-
-        assert mock_repository.call_count == 2
-
-        odds3 = data.draw(valid_odds(st.just(bookie1)))
-
-        if odds3 != odds1[0]:
-            odds_cache.add([odds3])
-            assert mock_repository.called_with(odds3)
-        else:
-            mock_repository.mock_reset()
-            odds_cache.add([odds3])
-            assert mock_repository.called
+    assert mock_repository.call_count == 3
