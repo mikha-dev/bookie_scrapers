@@ -1,6 +1,5 @@
-import logging
-
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+
 from scrapers.base.odds_scraper import OddsScraper
 
 
