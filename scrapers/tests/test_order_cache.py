@@ -91,8 +91,3 @@ def test_insert(data):
             mock_repository.mock_reset()
             odds_cache.add([odds3])
             assert mock_repository.called
-
-
-# def test_csv_repository():
-
-
