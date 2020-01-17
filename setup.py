@@ -9,7 +9,7 @@ setuptools.setup(
     author="Jonatan Almen",
     author_email="almen.jonatan@gmail.com",
     description="Simple Oddsportal Scraper",
-    install_requires=['selenium', 'pandas'],
+    install_requires=['selenium'],
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/almenjonatan/bookie_scrapers",
@@ -17,5 +17,5 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
 )
