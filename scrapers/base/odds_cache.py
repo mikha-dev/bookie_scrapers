@@ -1,8 +1,8 @@
-from pathlib import Path
+from collections import defaultdict
 
 
 class OddsCache:
-    def __init__(self, repository_callback, data_path: str = ""):
+    def __init__(self, repository_callback):
         """
         Args:
             data_path (str): Optional, if specified will create directory specified
@@ -10,12 +10,17 @@ class OddsCache:
         """
         assert repository_callback, "Add callback that will retrieve odds differences"
 
-        if data_path:
-            self.base_path = Path(data_path)
-            self.base_path.mkdir(parents=True, exist_ok=True)
-
-        self.cache = {}
+        self.cache = defaultdict(dict)
         self.repository_callback = repository_callback
 
     def add(self, odds: list):
-        self.repository_callback(odds)
+        for o in odds:
+            cached_odds = self.cache[o['url']].get(o['bookie'])
+
+            if not cached_odds:
+                self.cache[o['url']][o['bookie']] = o
+                self.repository_callback(o)
+            else:
+                if cached_odds != o:
+                    self.cache[o['url']][o['bookie']] = o
+                    self.repository_callback(o)

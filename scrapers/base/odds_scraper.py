@@ -8,9 +8,9 @@ from scrapers.base.odds_cache import OddsCache
 
 class OddsScraper(BaseScraper):
 
-    def __init__(self, url: str, data_path, competition_name):
+    def __init__(self, url: str, repository_callback):
         super().__init__(url)
-        self.odds_cache: OddsCache = OddsCache(data_path, competition_name)
+        self.odds_cache = OddsCache(repository_callback)
 
     @abstractmethod
     def find_urls(self):
@@ -20,15 +20,11 @@ class OddsScraper(BaseScraper):
     def find_and_parse_odds(self):
         raise NotImplementedError
 
-    @abstractmethod
-    def save(self, url, odds):
-        raise NotImplementedError
-
     def start(self):
         logging.info("Starting OddsScraper, fetching URL:s and opening them may take a while!")
         self.window_handler.open_page(self.url)
 
-        urls = self.find_urls()
+        urls = self.find_urls()[:3]
 
         self.window_handler.open_tabs(urls)
 
@@ -43,14 +39,13 @@ class OddsScraper(BaseScraper):
 
                 odds = self.find_and_parse_odds()
 
-                if not odds:
+                if odds:
+                    self.odds_cache.add(odds)
+                    continue
+
+                if isinstance(odds, str):
                     logging.info(f"closing game: {self.driver.current_url:>5}")
                     self.window_handler.close_tab()
                     continue
 
-                odds = self.odds_cache.add_new_odds(self.driver.current_url, odds)
-
-                if odds:
-                    self.save(self.driver.current_url, odds)
-
-                time.sleep(1)
+                time.sleep(1.5)

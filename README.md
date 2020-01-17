@@ -1,20 +1,19 @@
-### Oddsportal scraper
+### OddsPortal scraper
 
 ####  Usage:
 ```
-from oddsportal.oddsportal import OddsPortal
+import functools
+import logging
+from scrapers.oddsportal import OddsPortal
+from scrapers.repositories import csv_repository
 
-# Remove comment to enable logging logging.
-# logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
+OddsPortal(
+    url="https://www.oddsportal.com/soccer/england/premier-league/",
+    repository_callback=functools.partial(csv_repository, data_path='data/pl.csv')
+).start()
 
-config = {
-    "url": "https://www.oddsportal.com/soccer/england/premier-league/",
-    "data_path": "./data",
-    "competition_name": "premier-league"
-}
-
-OddsPortal(config).start_scraper()
 
 ```
 #### Installation:
