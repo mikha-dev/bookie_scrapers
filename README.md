@@ -1,7 +1,8 @@
 ### OddsPortal scraper 
 ![](https://github.com/almenjonatan/bookie_scrapers/workflows/test/badge.svg)
-####  Usage:
-``` python
+[![PyPI version](https://badge.fury.io/py/bookie-scrapers.svg)](https://badge.fury.io/py/bookie-scrapers)
+
+```python
 import functools
 import logging
 from scrapers.oddsportal import OddsPortal
@@ -18,7 +19,7 @@ OddsPortal(
 ```
 #### Installation:
 ```
-pip install bookie-scrapers
+$ pip install bookie-scrapers
 ```
 
 #### Run: 
@@ -26,7 +27,7 @@ pip install bookie-scrapers
 Since we are "tabbing" the windows it will switch focus to the browser, running it within a virtual framebuffer 
 is preferable if you do not run it on a dedicated server.  
 ```.env
-xvfb-run python main.py
+$ xvfb-run python main.py
 ```
 
 For testing purposes one can run the script as is and watch the browser switch tabs.
