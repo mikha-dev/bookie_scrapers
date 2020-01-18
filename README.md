@@ -44,6 +44,6 @@ https://chromedriver.chromium.org/
 * Reload crashed windows
 * Add correct waits instead of python time.sleep(.)
 * Add support for other browsers than google Chrome/Chromium
-* Add support for custom repositories
+* ~~Add support for custom repositories~~
 * Add more bookies and customizable scrapers
 * Add Docker support

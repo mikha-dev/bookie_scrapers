@@ -3,14 +3,13 @@ import time
 from abc import abstractmethod
 
 from scrapers.base.base import BaseScraper
-from scrapers.base.odds_cache import OddsCache
 
 
 class OddsScraper(BaseScraper):
 
     def __init__(self, url: str, callback):
         super().__init__(url)
-        self.odds_cache = OddsCache(callback)
+        self.callback = callback
 
     @abstractmethod
     def find_urls(self):
@@ -24,7 +23,7 @@ class OddsScraper(BaseScraper):
         logging.info("Starting OddsScraper, fetching URL:s and opening them may take a while!")
         self.window_handler.open_page(self.url)
 
-        urls = self.find_urls()
+        urls = self.find_urls()[:1]
 
         self.window_handler.open_tabs(urls)
 
@@ -40,7 +39,7 @@ class OddsScraper(BaseScraper):
                 odds = self.find_and_parse_odds()
 
                 if odds:
-                    self.odds_cache.add(odds)
+                    self.callback(odds)
                     time.sleep(1)
                     continue
 
@@ -48,5 +47,3 @@ class OddsScraper(BaseScraper):
                     logging.info(f"closing game: {self.driver.current_url:>5}")
                     self.window_handler.close_tab()
                     continue
-
-

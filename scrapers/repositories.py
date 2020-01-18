@@ -2,9 +2,12 @@ import csv
 import logging
 from datetime import datetime
 
+from scrapers.base.odds_cache import odds_cache
+
 fields = ["url", "bookie", "1", "X", "2", "payout", "publish_time"]
 
 
+@odds_cache
 def csv_repository(odds_difference, path="pl.csv"):
     logging.info("Adding odds from bookie: %s, url: %s", odds_difference['bookie'], odds_difference['url'])
     odds_difference = odds_difference.copy()
