@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import hypothesis.strategies as st
 from hypothesis import given, assume
 
-from scrapers.base.odds_cache import OddsCache
+from scrapers.base.odds_cache import odds_cache
 
 alphabet = ascii_letters + digits + "-_"
 
@@ -40,7 +40,7 @@ def test_insert_same_multiple_times(data):
     assume(bookie1 != bookie2)
 
     mock_repository = Mock()
-    odds_cache = OddsCache(mock_repository)
+    callback = odds_cache(mock_repository)
 
     odds1 = [data.draw(valid_odds(st.just(bookie1))),
              data.draw(valid_odds(st.just(bookie1))),
@@ -48,10 +48,10 @@ def test_insert_same_multiple_times(data):
 
     assume(odds1[0] != odds1[1])
 
-    odds_cache.add(odds1)
+    callback(odds1)
 
     assert mock_repository.call_count == 3
 
-    odds_cache.add(odds1)
+    callback(odds1)
 
     assert mock_repository.call_count == 5
