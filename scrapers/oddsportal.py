@@ -1,4 +1,5 @@
 import itertools
+import logging
 from contextlib import suppress
 
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
@@ -8,11 +9,11 @@ from scrapers.base.odds_scraper import OddsScraper
 
 class OddsPortal(OddsScraper):
 
-    def __init__(self, url: str, repository_callback):
+    def __init__(self, url: str, callback):
         assert url, "Must have a url"
-        assert repository_callback, "Must supply a callback to process odds"
+        assert callback, "Must supply a callback to process odds"
 
-        super().__init__(url, repository_callback)
+        super().__init__(url, callback)
 
     def find_urls(self):
         """
@@ -37,11 +38,13 @@ class OddsPortal(OddsScraper):
                 return "DONE!"
 
             odds = self.driver.find_elements_by_xpath("//tr[contains(@class, 'lo')]")
-            odds = [list(map(lambda s: s.strip(), itertools.chain([self.driver.current_url], o.text.split("\n")))) for o
-                    in odds]
+            odds = [list(map(lambda s: s.strip(), itertools.chain([self.driver.current_url], o.text.split("\n"))))
+                    for o in odds]
 
             fields = ["url", "bookie", "1", "X", "2", "payout"]
 
             odds = [dict(zip(fields, o)) for o in odds if len(o) == 6]
 
             return odds
+
+        logging.error("NoSuchElementException, StaleElementReferenceException")

@@ -34,7 +34,7 @@ def valid_odds(bookie=valid_bookie_names()):
 
 
 @given(st.data())
-def test_insert_same_bookie(data):
+def test_insert_same_multiple_times(data):
     bookie1, bookie2 = data.draw(valid_bookie_names()), data.draw(valid_bookie_names())
 
     assume(bookie1 != bookie2)
@@ -51,3 +51,7 @@ def test_insert_same_bookie(data):
     odds_cache.add(odds1)
 
     assert mock_repository.call_count == 3
+
+    odds_cache.add(odds1)
+
+    assert mock_repository.call_count == 5
